@@ -63,8 +63,16 @@ public class SecurityConfig {
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/authenticate").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/authenticate",  // Endpoint para autenticación
+                                "/api/usuario",
+                                "/api/usuarios",
+                                "api/save/**",
+                                "api/cliente",
+                                "api/tecnico",
+                                "api/usuario/*"// Endpoint para registrar usuario
+                        ).permitAll() // Permitir acceso sin autenticación
+                        .anyRequest().authenticated() // Proteger todos los demás endpoints
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
